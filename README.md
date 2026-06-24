@@ -17,29 +17,10 @@ Given a business question, InsightAgent:
 4. **Generates an executive report** using an LLM, but only for writing - every number is traced back to real, auditable computation
 
 ## Architecture
-                ┌─────────┐
-                │ Planner │
-                └────┬────┘
-      ┌──────────────┼──────────────┬──────────────┐
-      ▼              ▼              ▼              ▼
-  ┌────────┐    ┌──────────┐   ┌────────┐    ┌──────────┐
-  │ Review │    │ Delivery │   │ Seller │    │ Category │
-  │ Agent  │    │  Agent   │   │ Agent  │    │  Agent   │
-  └───┬────┘    └────┬─────┘   └───┬────┘    └────┬─────┘
-      └──────────────┴──────────────┴──────────────┘
-                        ▼
-                ┌───────────────┐
-                │ Root Cause    │
-                │ Agent         │
-                └───────┬───────┘
-                        ▼
-                ┌───────────────┐
-                │ Report Agent  │
-                │ (LLM-powered) │
-                └───────────────┘
-                
 
-Built with **LangGraph** - the Planner uses keyword-based routing to decide which of the 4 analysis agents to call; only relevant agents run, in parallel, via LangGraph's conditional edge and state-merging capabilities.
+![InsightAgent Architecture](architecture.png)
+
+Built with **LangGraph** — the Planner uses keyword-based routing to decide which of the 4 analysis agents to call; only relevant agents run, in parallel, via LangGraph's conditional edge and state-merging capabilities.
 
 ## Key Design Decision: LLM for Writing, Not Computing
 
