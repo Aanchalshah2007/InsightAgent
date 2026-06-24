@@ -16,11 +16,7 @@ Given a business question, InsightAgent:
 3. **Ranks root causes** by evidence strength using a deterministic severity score - not guesswork
 4. **Generates an executive report** using an LLM, but only for writing - every number is traced back to real, auditable computation
 
-## Architecture
 
-![InsightAgent Architecture](architecture.png)
-
-Built with **LangGraph** — the Planner uses keyword-based routing to decide which of the 4 analysis agents to call; only relevant agents run, in parallel, via LangGraph's conditional edge and state-merging capabilities.
 
 ## Key Design Decision: LLM for Writing, Not Computing
 
@@ -33,6 +29,33 @@ All quantitative analysis (review score averages, delay rates, seller/category r
 - **Data:** Pandas, on the [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) (112,650 order-item rows)
 - **Frontend:** Streamlit
 - **Environment:** Python, python-dotenv for secrets management
+
+## Architecture
+
+                          ┌──────────┐
+                          │ Planner  │
+                          └────┬─────┘
+             ┌──────────┬──────┴──────┬──────────┐
+             ▼          ▼             ▼          ▼
+        ┌─────────┐┌──────────┐┌─────────┐┌──────────┐
+        │ Review  ││ Delivery ││ Seller  ││ Category │
+        │ Agent   ││ Agent    ││ Agent   ││ Agent    │
+        └────┬────┘└────┬─────┘└────┬────┘└────┬─────┘
+             └──────────┴──────┬─────┴──────────┘
+                               ▼
+                      ┌─────────────────┐
+                      │  Root Cause      │
+                      │  Agent           │
+                      └────────┬─────────┘
+                               ▼
+                      ┌─────────────────┐
+                      │  Report Agent    │
+                      │  (LLM-powered)   │
+                      └────────┬─────────┘
+                               ▼
+                      ┌─────────────────┐
+                      │ Executive Report │
+                      └─────────────────┘
 
 ## Sample Finding
 
