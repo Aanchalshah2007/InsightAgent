@@ -37,6 +37,7 @@ Given a business question, InsightAgent:
                 │ Report Agent  │
                 │ (LLM-powered) │
                 └───────────────┘
+                
 
 Built with **LangGraph** - the Planner uses keyword-based routing to decide which of the 4 analysis agents to call; only relevant agents run, in parallel, via LangGraph's conditional edge and state-merging capabilities.
 
