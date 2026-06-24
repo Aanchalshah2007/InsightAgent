@@ -8,7 +8,7 @@ from groq import Groq
 
 load_dotenv()
 
-st.set_page_config(page_title="InsightAgent", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="InsightAgent", page_icon="", layout="wide", initial_sidebar_state="expanded")
 
 # --- Custom CSS for premium dark theme ---
 st.markdown("""
@@ -299,7 +299,8 @@ Write a professional executive report with these exact sections:
 
 Be concise, data-driven, and professional. Use the exact numbers provided."""
     try:
-        client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+        groq_key = os.getenv('GROQ_API_KEY') or st.secrets.get('GROQ_API_KEY')
+        client = Groq(api_key=groq_key)
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
